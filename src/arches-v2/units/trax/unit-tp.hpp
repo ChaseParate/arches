@@ -56,7 +56,7 @@ private:
 		return 0;
 	}
 
-	void _set_dependancies(uint thread_id) override
+	void _set_dependencies(uint thread_id) override
 	{
 		ThreadData& thread = _thread_data[thread_id];
 		const ISA::RISCV::Instruction& instr = thread.instr;
@@ -79,7 +79,7 @@ private:
 				float_regs_pending[instr.rd + i] = (uint8_t)ISA::RISCV::InstrType::CUSTOM7;
 		}
 
-		else Units::UnitTP::_set_dependancies(thread_id);
+		else Units::UnitTP::_set_dependencies(thread_id);
 	}
 };
 

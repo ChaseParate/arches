@@ -157,7 +157,7 @@ uint8_t UnitTP::_check_dependancies(uint thread_id)
 	return 0;
 }
 
-void UnitTP::_set_dependancies(uint thread_id)
+void UnitTP::_set_dependencies(uint thread_id)
 {
 	ThreadData& thread = _thread_data[thread_id];
 	const ISA::RISCV::Instruction& instr = thread.instr;
@@ -322,7 +322,7 @@ void UnitTP::clock_fall()
 			req.dst.push(thread_id, 4);
 			req.port = _tp_index;
 
-			_set_dependancies(thread_id);
+			_set_dependencies(thread_id);
 			sfu->write_request(req);
 		} 
 	}
@@ -336,7 +336,7 @@ void UnitTP::clock_fall()
 			req.port = _tp_index;
 			if(thread.instr_info.instr_type == ISA::RISCV::InstrType::STORE)
 				req.flags.omit_cache = 0b1111;
-			_set_dependancies(thread_id);
+			_set_dependencies(thread_id);
 
 			UnitMemoryBase* mem = (UnitMemoryBase*)_unit_table[(uint)thread.instr_info.instr_type];
 			mem->write_request(req);
