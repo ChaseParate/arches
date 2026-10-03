@@ -147,7 +147,7 @@ typedef Units::UnitCache UnitL1Cache;
 typedef rtm::FTB PrimBlocks;
 typedef Units::TRaX::UnitRTCore<rtm::CWBVH::Node, PrimBlocks> UnitRTCore;
 
-static TRaXKernelArgs initilize_buffers(Units::UnitMainMemoryBase** drams, const Units::UnitCrossbar& xbar, paddr_t& heap_address, const SimulationConfig& sim_config, uint page_size)
+static TRaXKernelArgs initialize_buffers(Units::UnitMainMemoryBase** drams, const Units::UnitCrossbar& xbar, paddr_t& heap_address, const SimulationConfig& sim_config, uint page_size)
 {
 	std::string scene_name = sim_config.get_string("scene-name");
 	std::string project_folder = get_project_folder_path();
@@ -527,7 +527,7 @@ static void run_sim_trax(SimulationConfig& sim_config)
 	for(uint addr = 0; addr < heap_address; addr += partition_stride)
 		drams[xbar.get_partition(addr)]->direct_write(vec_mem.data() + addr, partition_stride, xbar.strip_partition_bits(addr));
 
-	TRaXKernelArgs kernel_args = initilize_buffers((Units::UnitMainMemoryBase**)drams.data(), xbar, heap_address, sim_config, partition_stride);
+	TRaXKernelArgs kernel_args = initialize_buffers((Units::UnitMainMemoryBase**)drams.data(), xbar, heap_address, sim_config, partition_stride);
 	heap_address = align_to(partition_stride, heap_address);
 
 	for(uint addr = 0; addr < (256 << 20); addr += partition_stride)
